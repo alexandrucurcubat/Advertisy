@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="~{commons/head :: head}"> </head>
+
+  <body>
+    <!--================Header Menu Area =================-->
+    <header></header>
+    <!--================End Header Menu Area =================-->
+
+    <!--================ Begin Body Area =================-->
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <a tH:href="@{/home}">
+            <img th:src="@{images/logo.png}" width="300">
+          </a>
+          <h1 class="">Wellcome to Advertisy!</h1>
+          <h2 class="text-success">Site under construction...</h2>
+        </div>
+      </div>
+    </div>
+    <!--================End Body Area=================-->
+
+    <!--================Footer Area =================-->
+    <footer th:replace="~{commons/footer :: footer}"></footer>
+    <!--================End Footer Area =================-->
+  </body>
+</html>
