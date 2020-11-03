@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://ro.student.mtapo.advertisy.model"
+           xmlns:ad="http://ro.student.mtapo.advertisy.model" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <!-- Complex types -->
+    <xs:complexType name="AccountType">
+        <xs:sequence>
+            <xs:element minOccurs="1" name="id" type="xs:int"/>
+            <xs:element minOccurs="1" name="name" type="xs:string"/>
+            <xs:element minOccurs="1" name="description" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Address">
+        <xs:sequence>
+            <xs:element minOccurs="1" name="id" type="xs:int"/>
+            <xs:element minOccurs="1" name="street" type="xs:string"/>
+            <xs:element minOccurs="1" name="city" type="ad:City"/>
+            <xs:element minOccurs="1" name="country" type="ad:Country"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Announce">
+        <xs:sequence>
+            <xs:element minOccurs="1" name="id" type="xs:int"/>
+            <xs:element minOccurs="1" name="category" type="ad:Category"/>
+            <xs:element minOccurs="1" name="title" type="xs:string"/>
+            <xs:element minOccurs="1" name="shortDesc" type="xs:string"/>
+            <xs:element minOccurs="1" name="longDesc" type="xs:string"/>
+            <xs:element minOccurs="1" name="price" type="xs:double"/>
+            <xs:element minOccurs="1" name="views" type="xs:int"/>
+            <xs:element minOccurs="1" name="isActive" type="xs:boolean"/>
+            <xs:element minOccurs="1" name="isPublished" type="xs:boolean"/>
+            <xs:element minOccurs="1" name="publishedDate" type="xs:date"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AnnounceFile">
+        <xs:sequence>
+            <xs:element minOccurs="1" name="id" type="xs:int"/>
+            <xs:element minOccurs="1" name="file" type="ad:File"/>
+            <xs:element minOccurs="1" name="announce" type="ad:Announce"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AnnounceUser">
+        <xs:sequence>
+            <xs:element minOccurs="1" name="id" type="xs:int"/>
+            <xs:element minOccurs="1" name="user" type="ad:User"/>
+            <xs:element minOccurs="1" name="announce" type="ad:Announce"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BannedAnnounce">
+        <xs:sequence>
+            <xs:element minOccurs="1" name="id" type="xs:int"/>
+            <xs:element minOccurs="1" name="announce" type="ad:Announce"/>
+            <xs:element minOccurs="1" name="message" type="xs:string"/>
+            <xs:element minOccurs="1" name="banDate" type="xs:date"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Category">
+        <xs:sequence>
+            <xs:element minOccurs="1" name="id" type="xs:int"/>
+            <xs:element minOccurs="1" name="name" type="xs:string"/>
+            <xs:element minOccurs="1" name="description" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="City">
+        <xs:sequence>
+            <xs:element minOccurs="1" name="id" type="xs:int"/>
+            <xs:element minOccurs="1" name="name" type="xs:string"/>
+            <xs:element minOccurs="1" name="description" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Country">
+        <xs:sequence>
+            <xs:element minOccurs="1" name="id" type="xs:int"/>
+            <xs:element minOccurs="1" name="name" type="xs:string"/>
+            <xs:element minOccurs="1" name="description" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="File">
+        <xs:sequence>
+            <xs:element minOccurs="1" name="id" type="xs:int"/>
+            <xs:element minOccurs="1" name="uuid" type="xs:string"/>
+            <xs:element minOccurs="1" name="sha" type="xs:string"/>
+            <xs:element minOccurs="1" name="name" type="xs:string"/>
+            <xs:element minOccurs="1" name="blob" type="xs:byte"/>
+            <xs:element minOccurs="1" name="mime_type" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ReportedAnnounce">
+        <xs:sequence>
+            <xs:element minOccurs="1" name="id" type="xs:int"/>
+            <xs:element minOccurs="1" name="announce" type="ad:Announce"/>
+            <xs:element minOccurs="1" name="message" type="xs:string"/>
+            <xs:element minOccurs="1" name="reportDate" type="xs:date"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Role">
+        <xs:sequence>
+            <xs:element minOccurs="1" name="id" type="xs:int"/>
+            <xs:element minOccurs="1" name="name" type="xs:string"/>
+            <xs:element minOccurs="1" name="description" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="UnbanAnnounceReq">
+        <xs:sequence>
+            <xs:element minOccurs="1" name="id" type="xs:int"/>
+            <xs:element minOccurs="1" name="announce" type="ad:Announce"/>
+            <xs:element minOccurs="1" name="message" type="xs:string"/>
+            <xs:element minOccurs="1" name="reqDate" type="xs:date"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="User">
+        <xs:sequence>
+            <xs:element minOccurs="1" name="id" type="xs:int"/>
+            <xs:element minOccurs="1" name="username" type="xs:int"/>
+            <xs:element minOccurs="1" name="password" type="xs:string"/>
+            <xs:element minOccurs="1" name="role" type="ad:Role"/>
+            <xs:element minOccurs="1" name="accountType" type="ad:AccountType"/>
+            <xs:element minOccurs="1" name="file" type="ad:File"/>
+            <xs:element minOccurs="1" name="fName" type="xs:int"/>
+            <xs:element minOccurs="1" name="lName" type="xs:boolean"/>
+            <xs:element minOccurs="1" name="phone" type="xs:boolean"/>
+            <xs:element minOccurs="1" name="email" type="xs:date"/>
+            <xs:element minOccurs="1" name="active" type="xs:boolean"/>
+            <xs:element minOccurs="1" name="lastLogin" type="xs:date"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
