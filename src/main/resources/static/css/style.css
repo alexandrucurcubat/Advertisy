@@ -1,0 +1,27 @@
+:root {
+  --main-color: #40A798;
+  --light-gray: rgba(0, 0, 0, .125);
+}
+
+/* Custom scroll bar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--light-gray);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--main-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--main-color);
+}
+
+/* Overwrite list active item */
+.list-group-item.active {
+  background-color: var(--main-color);
+  border-color: var(--light-gray);
+}

@@ -5,6 +5,47 @@
   xmlns:th="http://www.thymeleaf.org"
 >
 <header th:fragment="header">
-  Under construction
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a class="navbar-brand " href="">
+      <img th:src="@{/img/logo_transparent.png}" width="150" alt="advertisy logo">
+    </a>
+    <span class="text-warning">
+      Under construction
+      <i class="fas fa-exclamation-triangle"></i>
+    </span>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item mr-5">
+          <a class="nav-link" href="#">
+            <button
+              type="button"
+              class="btn btn-dark btn-lg font-weight-bold"
+            ><i class="far fa-user"></i> Contul meu
+            </button>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <button
+              type="button"
+              class="btn btn-light btn-lg font-weight-bold"
+            >Adaugă anunț
+            </button>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 </header>
 </html>
