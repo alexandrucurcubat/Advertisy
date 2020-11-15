@@ -65,4 +65,39 @@
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>generate-integration-entity</id>
+			<properties>
+				<maven.test.skip>true</maven.test.skip>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.jvnet.jaxb2.maven2</groupId>
+						<artifactId>maven-jaxb2-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>integration-beans-generate</id>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>generate</goal>
+								</goals>
+								<configuration>
+									<extension>true</extension>
+									<verbose>true</verbose>
+									<schemaDirectory>src/main/resources/schema</schemaDirectory>
+									<schemaIncludes>
+										<include>entity-schema-integration.xsd</include>
+									</schemaIncludes>
+									<generatePackage>ro.student.mtapo.advertisy.entity.copy</generatePackage>
+									<generateDirectory>${basedir}/src/main/java</generateDirectory>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
