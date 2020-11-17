@@ -4,9 +4,9 @@
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:th="http://www.thymeleaf.org"
 >
-<main th:fragment="create_account" class="container">
+<div th:fragment="create_account" class="container">
   <form
-    class="form-create-account text-center"
+    class="form-create-account text-center mb-4"
     enctype="multipart/form-data"
   >
     <div class="row">
@@ -104,10 +104,11 @@
               id="user-image"
               src="/img/logo_transparent.png"
               width="100%"
-              alt="poză utilizator"/>
+              alt="imagine utilizator"
+            />
           </div>
           <div class="card-footer">
-            <label for="user-image-input" class="btn btn btn-light mt-1 text-main">
+            <label for="user-image-input" class="btn btn btn-light mt-2 text-main">
               <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-upload" fill="currentColor"
                    xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -155,5 +156,5 @@
       </div>
     </div>
   </form>
-</main>
+</div>
 </html>

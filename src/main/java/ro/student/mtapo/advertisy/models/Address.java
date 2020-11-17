@@ -15,6 +15,9 @@ public class Address {
     @Column(name = "street_address")
     String streetAddress;
 
+    @Column(name = "place")
+    String place;
+
     @ManyToOne
     @JoinColumn(name = "county_id")
     County county;
@@ -35,6 +38,14 @@ public class Address {
         this.streetAddress = streetAddress;
     }
 
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
     public County getCounty() {
         return county;
     }
@@ -48,6 +59,7 @@ public class Address {
         return "Address{" +
                 "id=" + id +
                 ", streetAddress='" + streetAddress + '\'' +
+                ", place='" + place + '\'' +
                 ", county=" + county +
                 '}';
     }
