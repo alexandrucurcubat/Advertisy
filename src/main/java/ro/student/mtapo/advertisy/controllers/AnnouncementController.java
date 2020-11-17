@@ -21,15 +21,27 @@ public class AnnouncementController {
     @GetMapping("")
     public String getAnnouncements(Model model) {
         model.addAttribute("announcementsFragment", true);
+        model.addAttribute("showAnnouncements", true);
         model.addAttribute("announcements", announcementService.getAnnouncements());
         model.addAttribute("categories", announcementService.getAnnouncementCategories());
         model.addAttribute("activeCategory", "all");
         return "index";
     }
 
+    @GetMapping("/{announcementId}")
+    public String getAnnouncement(@PathVariable int announcementId, Model model) {
+        model.addAttribute("announcementsFragment", true);
+        model.addAttribute("showAnnouncementDetails", true);
+        model.addAttribute("announcement", announcementService.getAnnouncementById(announcementId));
+        model.addAttribute("categories", announcementService.getAnnouncementCategories());
+        model.addAttribute("activeCategory", announcementService.getAnnouncementCategoryByAnnouncementId(announcementId).getId());
+        return "index";
+    }
+
     @GetMapping("category/{categoryId}")
     public String getAnnouncementsByCategory(@PathVariable int categoryId, Model model) {
         model.addAttribute("announcementsFragment", true);
+        model.addAttribute("showAnnouncements", true);
         model.addAttribute("announcements", announcementService.getAnnouncementsByCategoryId(categoryId));
         model.addAttribute("categories", announcementService.getAnnouncementCategories());
         model.addAttribute("activeCategory", categoryId);

@@ -37,6 +37,14 @@ public class AnnouncementService {
         return announcementCategoryRepository.findAll();
     }
 
+    public AnnouncementCategory getAnnouncementCategoryByAnnouncementId(int id) {
+        Announcement announcement = getAnnouncementById(id);
+        if (announcement != null) {
+            return announcement.getCategory();
+        }
+        return null;
+    }
+
     public List<Announcement> getAnnouncementsByCategoryId(int id) {
         return announcementRepository.findByCategory_Id(id);
     }
