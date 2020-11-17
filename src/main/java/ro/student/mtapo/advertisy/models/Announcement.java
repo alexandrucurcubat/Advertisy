@@ -1,6 +1,7 @@
 package ro.student.mtapo.advertisy.models;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Date;
 
 @Entity
@@ -29,8 +30,18 @@ public class Announcement {
     @Column(name = "long_description")
     String longDescription;
 
+    @Column(name = "image")
+    byte[] image;
+
+    @Column(name = "image_mime_type")
+    String imageMimeType;
+
     @Column(name = "price")
     double price;
+
+    @ManyToOne
+    @JoinColumn(name = "currency_id")
+    Currency currency;
 
     @Column(name = "views")
     int views;
@@ -95,12 +106,36 @@ public class Announcement {
         this.longDescription = longDescription;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageMimeType() {
+        return imageMimeType;
+    }
+
+    public void setImageMimeType(String imageMimeType) {
+        this.imageMimeType = imageMimeType;
+    }
+
     public double getPrice() {
         return price;
     }
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 
     public int getViews() {
@@ -144,7 +179,10 @@ public class Announcement {
                 ", title='" + title + '\'' +
                 ", shortDescription='" + shortDescription + '\'' +
                 ", longDescription='" + longDescription + '\'' +
+                ", image=" + Arrays.toString(image) +
+                ", imageMimeType='" + imageMimeType + '\'' +
                 ", price=" + price +
+                ", currency=" + currency +
                 ", views=" + views +
                 ", isActive=" + isActive +
                 ", isVisible=" + isVisible +

@@ -1,6 +1,7 @@
 package ro.student.mtapo.advertisy.models;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Date;
 
 @Entity
@@ -28,9 +29,11 @@ public class User {
     @JoinColumn(name = "address_id")
     Address address;
 
-    @ManyToOne
-    @JoinColumn(name = "photo_id")
-    UserPhoto photo;
+    @Column(name = "image")
+    byte[] image;
+
+    @Column(name = "image_mime_type")
+    String imageMimeType;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
@@ -93,12 +96,20 @@ public class User {
         this.address = address;
     }
 
-    public UserPhoto getPhoto() {
-        return photo;
+    public byte[] getImage() {
+        return image;
     }
 
-    public void setPhoto(UserPhoto photo) {
-        this.photo = photo;
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageMimeType() {
+        return imageMimeType;
+    }
+
+    public void setImageMimeType(String imageMimeType) {
+        this.imageMimeType = imageMimeType;
     }
 
     public Role getRole() {
@@ -134,7 +145,8 @@ public class User {
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
                 ", address=" + address +
-                ", photo=" + photo +
+                ", image=" + Arrays.toString(image) +
+                ", imageMimeType='" + imageMimeType + '\'' +
                 ", role=" + role +
                 ", isActive=" + isActive +
                 ", lastLogin=" + lastLogin +

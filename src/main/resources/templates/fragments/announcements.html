@@ -5,44 +5,71 @@
   xmlns:th="http://www.thymeleaf.org"
 >
 <main th:fragment="announcements" class="container-fluid">
-  <div class="row mt-5">
+  <div class="row mt-3">
     <!-- Announcement Categories -->
     <div class="col-12 col-sm-4 col-md-3 mb-5">
       <ul class="list-group">
         <a
-          class="active list-group-item list-group-item-action font-weight-bold"
-          href="#"
+          th:class="${activeCategory} eq 'all'
+              ? 'active list-group-item list-group-item-action font-weight-bold'
+              : 'list-group-item list-group-item-action font-weight-bold'"
+          href="/announcements/"
         >Toate anunțurile</a>
         <a
-          class="list-group-item list-group-item-action font-weight-bold"
-          href="#"
-          th:each="i : ${#numbers.sequence(1, 3)}"
-          th:text="'Categorie ' + ${i}"
+          th:each="category: ${categories}"
+          th:href="'/announcements/category/' + ${category.id}"
+          th:text="${category.name}"
+          th:class="${activeCategory} eq ${category.id}
+              ? 'active list-group-item list-group-item-action font-weight-bold'
+              : 'list-group-item list-group-item-action font-weight-bold'"
         ></a>
       </ul>
     </div>
     <!-- Announcemnets -->
     <div class="col-12 col-sm-8 col-md-9">
+      <div th:if="${#lists.isEmpty(announcements)}" class="alert alert-light font-weight-bold" role="alert">
+        Deocamdată nu sunt anunțuri de afișat.
+      </div>
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
         <a
-          href="#"
+          th:each="announcement: ${announcements}"
+          th:href="'/announcements/' + ${announcement.id}"
           class="text-secondary text-decoration-none"
-          th:each="i : ${#numbers.sequence(1, 7)}"
         >
           <div class="col mb-4">
             <div class="card h-100">
               <img
-                th:src="@{/img/logo_transparent.png}"
+                th:src="${announcement.image} ? '/announcements/image/' + ${announcement.id} : '/img/logo_transparent.png'"
                 class="card-img-top"
                 alt="product image"
               >
               <div class="card-body text-center">
-                <h5 class="card-title" th:text="'Titlu anunț'"></h5>
-                <p class="card-text" th:text="'Scurtă descriere'"></p>
+                <h5 class="card-title" th:text="${announcement.title}"></h5>
+                <p class="card-text" th:text="${announcement.shortDescription}"></p>
               </div>
               <div class="card-footer text-center">
-                <h6 th:text="'0 lei'"></h6>
+                <h6
+                  th:text="${#numbers.formatDecimal(announcement.price, 0, 2)} + ' ' + ${announcement.currency.acronym}"
+                ></h6>
               </div>
+              <ul class="list-group list-group-flush text-center">
+                <li class="list-group-item">
+                  <div
+                    class="card-text small font-weight-bold"
+                    th:text="${announcement.views} eq 1
+                      ? ${announcement.views} + ' vizualizare'
+                      : ${announcement.views} + ' vizualizări'"
+                  ></div>
+                  <div
+                    class="card-text small"
+                    th:text="'Publicat pe ' + ${#dates.format(announcement.publicationDate, 'dd-MM-yyyy HH:mm')}"
+                  ></div>
+                  <div
+                    class="card-text small"
+                    th:text="'De ' + ${announcement.user.username}"
+                  ></div>
+                </li>
+              </ul>
             </div>
           </div>
         </a>

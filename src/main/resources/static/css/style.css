@@ -3,6 +3,10 @@
   --light-gray: rgba(0, 0, 0, .125);
 }
 
+.text-main {
+  color: var(--main-color);
+}
+
 /* Custom scroll bar */
 ::-webkit-scrollbar {
   width: 5px;
@@ -42,7 +46,9 @@ input[type="url"]:focus,
 input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="color"]:focus,
-.uneditable-input:focus {
+input[type="file"]:focus,
+.uneditable-input:focus,
+.form-control:focus {
   border-color: var(--light-gray);
   box-shadow: 0 0 0 0.1rem var(--light-gray);
   outline: 0 none;
@@ -55,7 +61,15 @@ input[type="color"]:focus,
   margin: auto;
 }
 
-.form-authentication .form-control {
+.form-create-account {
+  width: 100%;
+  max-width: 800px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-authentication .form-control,
+.form-create-account .form-control {
   position: relative;
   box-sizing: border-box;
   height: auto;

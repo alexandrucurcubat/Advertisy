@@ -3,22 +3,18 @@ package ro.student.mtapo.advertisy.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "role")
-public class Role {
+@Table(name = "currency")
+public class Currency {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     int id;
 
-    @Column(name = "name")
-    String name;
+    @Column(name = "acronym")
+    String acronym;
 
-    public Role() {
-    }
-
-    public Role(String name) {
-        this.name = name;
+    public Currency() {
     }
 
     public int getId() {
@@ -29,19 +25,19 @@ public class Role {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getAcronym() {
+        return acronym;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAcronym(String acronym) {
+        this.acronym = acronym;
     }
 
     @Override
     public String toString() {
-        return "Role{" +
+        return "Currency{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", acronym='" + acronym + '\'' +
                 '}';
     }
 }

@@ -11,6 +11,9 @@ public class County {
     @Column(name = "id")
     int id;
 
+    @Column(name = "code")
+    String code;
+
     @Column(name = "name")
     String name;
 
@@ -25,6 +28,14 @@ public class County {
         this.id = id;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public String getName() {
         return name;
     }
@@ -35,8 +46,9 @@ public class County {
 
     @Override
     public String toString() {
-        return "county{" +
+        return "County{" +
                 "id=" + id +
+                ", code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 '}';
     }
