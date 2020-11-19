@@ -84,31 +84,6 @@
             </button>
           </a>
         </div>
-        <script>
-            function readURL(input) {
-                if (input.files && input.files[0]) {
-                    let reader = new FileReader();
-                    reader.onload = function (e) {
-                        $('#userImage').attr('src', e.target.result);
-                    }
-                    reader.readAsDataURL(input.files[0]);
-                    $('#userImageDelete').removeAttr('hidden');
-                }
-            }
-
-            $("#userImageInput").change(function () {
-                readURL(this);
-            });
-
-            $("#userImageDelete").click(function () {
-                let userImageInput = $("#userImageInput")[0];
-                if (userImageInput.files && userImageInput.files[0]) {
-                    $("#userImage").attr('src', '/img/logo_transparent.png');
-                    $("#userImageInput").val('');
-                    $('#userImageDelete').attr('hidden', true);
-                }
-            });
-        </script>
       </div>
       <div class="col-sm col-md-8">
         <label for="email" class="sr-only">Email</label>
@@ -193,5 +168,30 @@
       </div>
     </div>
   </form>
+  <script>
+      function readURL(input) {
+          if (input.files && input.files[0]) {
+              let reader = new FileReader();
+              reader.onload = function (e) {
+                  $('#userImage').attr('src', e.target.result);
+              }
+              reader.readAsDataURL(input.files[0]);
+              $('#userImageDelete').removeAttr('hidden');
+          }
+      }
+
+      $("#userImageInput").change(function () {
+          readURL(this);
+      });
+
+      $("#userImageDelete").click(function () {
+          let userImageInput = $("#userImageInput")[0];
+          if (userImageInput.files && userImageInput.files[0]) {
+              $("#userImage").attr('src', '/img/logo_transparent.png');
+              $("#userImageInput").val('');
+              $('#userImageDelete').attr('hidden', true);
+          }
+      });
+  </script>
 </div>
 </html>

@@ -47,6 +47,7 @@ public class HomeController {
         model.addAttribute("categories", announcementService.getAnnouncementCategories());
         Announcement announcement = announcementService.getAnnouncementById(announcementId);
         if (announcement.getIsActive() && announcement.getIsVisible()) {
+            announcementService.incrementViewCount(announcementId);
             model.addAttribute("showAnnouncementDetails", true);
             model.addAttribute("announcement", announcement);
             model.addAttribute("activeCategory", announcementService.getAnnouncementCategoryByAnnouncementId(announcementId).getId());

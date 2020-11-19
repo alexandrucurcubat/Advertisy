@@ -148,10 +148,7 @@ public class UserController {
     }
 
     @PostMapping("announcement/delete")
-    public String deleteAnnouncement(
-            @RequestParam String announcementId,
-            RedirectAttributes redirectAttributes
-    ) {
+    public String deleteAnnouncement(@RequestParam String announcementId, RedirectAttributes redirectAttributes) {
         announcementService.deleteAnnouncement(Integer.parseInt(announcementId));
         redirectAttributes.addFlashAttribute("announcementDeleted", true);
         return "redirect:/user/announcements";
@@ -171,17 +168,39 @@ public class UserController {
 
     @GetMapping("announcement/create")
     public String userAnnouncementCreateForm(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("user", userService.getUserByEmail((String) authentication.getPrincipal()));
         model.addAttribute("userAnnouncementCreate", true);
+        model.addAttribute("categories", announcementService.getAnnouncementCategories());
+        model.addAttribute("currencies", announcementService.getCurrencies());
         return "index";
     }
 
     @PostMapping("announcement/create")
-    public String userAnnouncementCreate(Model model) {
+    public String userAnnouncementCreate(
+            @RequestParam String categoryId,
+            @RequestParam String title,
+            @RequestParam String shortDescription,
+            @RequestParam String longDescription,
+            @RequestParam String price,
+            @RequestParam String currencyId,
+            @RequestParam MultipartFile announcementImage,
+            RedirectAttributes redirectAttributes
+    ) throws IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("user", userService.getUserByEmail((String) authentication.getPrincipal()));
-        model.addAttribute("userAnnouncementCreate", true);
+        User user = userService.getUserByEmail((String) authentication.getPrincipal());
+        AnnouncementDetails details = new AnnouncementDetails();
+        details.setCategoryId(Integer.parseInt(categoryId));
+        details.setTitle(title);
+        details.setShortDescription(shortDescription);
+        details.setLongDescription(longDescription);
+        details.setPrice(Double.parseDouble(price));
+        details.setCurrencyId(Integer.parseInt(currencyId));
+        details.setAnnouncementImage(announcementImage);
+        Announcement announcement = announcementService.createAnnouncement(details, user);
+        if (announcement != null) {
+            redirectAttributes.addFlashAttribute("announcementCreated", true);
+            return "redirect:/user/announcement/" + announcement.getId();
+        }
+        redirectAttributes.addFlashAttribute("createError", true);
         return "redirect:/user/announcement/create";
     }
 }

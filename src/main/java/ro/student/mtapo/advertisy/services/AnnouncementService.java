@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ro.student.mtapo.advertisy.models.Announcement;
 import ro.student.mtapo.advertisy.models.AnnouncementCategory;
 import ro.student.mtapo.advertisy.models.Currency;
+import ro.student.mtapo.advertisy.models.User;
 import ro.student.mtapo.advertisy.repositories.AnnouncementCategoryRepository;
 import ro.student.mtapo.advertisy.repositories.AnnouncementRepository;
 import ro.student.mtapo.advertisy.repositories.CurrencyRepository;
@@ -128,5 +129,30 @@ public class AnnouncementService {
             announcement.setIsVisible(true);
             announcementRepository.save(announcement);
         }
+    }
+
+    public Announcement createAnnouncement(AnnouncementDetails details, User user) throws IOException {
+        Announcement announcement = new Announcement();
+        announcement.setUser(user);
+        announcement.setCategory(getAnnouncementCategoryById(details.getCategoryId()));
+        announcement.setTitle(details.getTitle());
+        announcement.setShortDescription(details.getShortDescription());
+        announcement.setLongDescription(details.getLongDescription());
+        announcement.setPrice(details.getPrice());
+        announcement.setCurrency(getCurrencyById(details.getCurrencyId()));
+        if (!Objects.equals(details.getAnnouncementImage().getContentType(), "application/octet-stream")) {
+            announcement.setImage(details.getAnnouncementImage().getBytes());
+            announcement.setImageMimeType(details.getAnnouncementImage().getContentType());
+        }
+        announcement.setViews(0);
+        announcement.setIsActive(true);
+        announcement.setIsVisible(true);
+        return announcementRepository.save(announcement);
+    }
+
+    public void incrementViewCount(int announcementId) {
+        Announcement announcement = getAnnouncementById(announcementId);
+        announcement.setViews(announcement.getViews() + 1);
+        announcementRepository.save(announcement);
     }
 }

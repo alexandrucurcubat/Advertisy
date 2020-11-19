@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+>
+<div th:fragment="user_create_announcement" class="container">
+  <div
+    th:if="${createError}"
+    class="alert alert-danger alert-dismissible fade show text-center mt-3"
+    role="alert"
+  >
+    A apărut o eroare la crearea anunțului. Încearcă mai târziu.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form
+    class="mt-3 mb-3"
+    enctype="multipart/form-data"
+    action="/user/announcement/create"
+    method="post"
+  >
+    <div class="my-3">
+      <a href="/announcements">
+        <button
+          type="button"
+          class="btn btn-light btn-lg w-100"
+        >
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left-short" fill="currentColor"
+               xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+                  d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+          </svg>
+          Înapoi la anunțuri
+        </button>
+      </a>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2">
+      <div class="col">
+        <input
+          id="announcementImageInput"
+          hidden
+          type="file"
+          accept="image/png, image/jpeg"
+          name="announcementImage"/>
+        <div class="card text-center">
+          <div class="card-body text-primary">
+            <img
+              id="announcementImage"
+              src="/img/logo_transparent.png"
+              width="100%"
+              alt="imagine anunț"
+            />
+          </div>
+          <div class="card-footer">
+            <label for="announcementImageInput" class="btn btn btn-light mt-2 text-main">
+              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-upload" fill="currentColor"
+                   xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                      d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                <path fill-rule="evenodd"
+                      d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+              </svg>
+            </label>
+            <button id="announcementImageDelete" type="button" class="btn btn btn-light text-danger" hidden>
+              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-square" fill="currentColor"
+                   xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                      d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                <path fill-rule="evenodd"
+                      d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <label for="category">Categorie</label>
+        <select
+          id="category"
+          class="form-control mb-2"
+          name="categoryId"
+        >
+          <option
+            th:each="category : ${categories}"
+            th:value="${category.id}"
+          >
+            <span th:text="${category.name}"></span>
+          </option>
+        </select>
+        <label for="title">Titlu</label>
+        <input
+          type="text"
+          id="title"
+          class="form-control mb-2"
+          placeholder="Titlu"
+          name="title"
+          required
+        >
+        <label for="shortDescription">Descriere scurtă</label>
+        <input
+          type="text"
+          id="shortDescription"
+          class="form-control mb-2"
+          placeholder="Descriere scurtă"
+          name="shortDescription"
+          required
+        >
+        <label for="longDescription">Descriere lungă</label>
+        <textarea
+          id="longDescription"
+          class="form-control mb-2"
+          placeholder="Descriere lungă"
+          name="longDescription"
+          rows="3"
+          required
+        ></textarea>
+        <div class="row">
+          <div class="col">
+            <label for="price">Preț</label>
+            <input
+              type="number"
+              id="price"
+              class="form-control mb-2"
+              placeholder="Preț"
+              name="price"
+              min="0"
+              step="0.01"
+              required
+            >
+          </div>
+          <div class="col">
+            <label for="currency">Valută</label>
+            <select
+              id="currency"
+              class="form-control mb-3"
+              name="currencyId"
+            >
+              <option
+                th:each="currency : ${currencies}"
+                th:value="${currency.id}"
+              >
+                <span th:text="${currency.acronym}"></span>
+              </option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-lg btn-main btn-block mt-3" type="submit">Publică</button>
+      </div>
+    </div>
+  </form>
+  <script th:inline="javascript">
+      function readURL(input) {
+          if (input.files && input.files[0]) {
+              let reader = new FileReader();
+              reader.onload = function (e) {
+                  $('#announcementImage').attr('src', e.target.result);
+              }
+              reader.readAsDataURL(input.files[0]);
+              $('#announcementImageDelete').removeAttr('hidden');
+          }
+      }
+
+      $("#announcementImageInput").change(function () {
+          readURL(this);
+      });
+
+      $("#announcementImageDelete").click(function () {
+          $("#announcementImage").attr('src', '/img/logo_transparent.png');
+          $("#announcementImageInput").val(null);
+          $('#announcementImageDelete').attr('hidden', true);
+      });
+  </script>
+</div>
+</html>

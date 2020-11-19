@@ -27,6 +27,9 @@
 <main th:if="${userAccountFragment}">
   <div th:replace="~{fragments/user_account :: user_account}"></div>
 </main>
+<main th:if="${userAnnouncementCreate}">
+  <div th:replace="~{fragments/user_create_announcement :: user_create_announcement}"></div>
+</main>
 <main th:if="${userAnnouncements}">
   <div th:replace="~{fragments/user_announcements :: user_announcements}"></div>
 </main>
