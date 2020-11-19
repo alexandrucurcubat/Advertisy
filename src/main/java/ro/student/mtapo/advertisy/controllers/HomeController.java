@@ -31,7 +31,7 @@ public class HomeController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("principal", authentication.getPrincipal());
         model.addAttribute("roles", authentication.getAuthorities());
-        model.addAttribute("announcementsFragment", true);
+        model.addAttribute("homeFragment", true);
         model.addAttribute("showAnnouncements", true);
         model.addAttribute("announcements", announcementService.getAnnouncements());
         model.addAttribute("categories", announcementService.getAnnouncementCategories());
@@ -44,7 +44,7 @@ public class HomeController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("principal", authentication.getPrincipal());
         model.addAttribute("roles", authentication.getAuthorities());
-        model.addAttribute("announcementsFragment", true);
+        model.addAttribute("homeFragment", true);
         model.addAttribute("showAnnouncementDetails", true);
         model.addAttribute("announcement", announcementService.getAnnouncementById(announcementId));
         model.addAttribute("categories", announcementService.getAnnouncementCategories());
@@ -57,7 +57,7 @@ public class HomeController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("principal", authentication.getPrincipal());
         model.addAttribute("roles", authentication.getAuthorities());
-        model.addAttribute("announcementsFragment", true);
+        model.addAttribute("homeFragment", true);
         model.addAttribute("showAnnouncements", true);
         model.addAttribute("announcements", announcementService.getAnnouncementsByCategoryId(categoryId));
         model.addAttribute("categories", announcementService.getAnnouncementCategories());

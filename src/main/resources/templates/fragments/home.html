@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+>
+<div th:fragment="home" class="container-fluid">
+  <div class="row mt-3">
+    <!-- Announcement categories -->
+    <div class="col-12 col-sm-4 col-md-3 mb-5">
+      <div th:replace="~{fragments/announcement_categories :: announcement_categories}"></div>
+    </div>
+    <!-- Announcements -->
+    <div th:if="${showAnnouncements}" class="col-12 col-sm-8 col-md-9">
+      <div th:replace="~{fragments/announcements :: announcements}"></div>
+    </div>
+    <!-- Announcement details -->
+    <div th:if="${showAnnouncementDetails}" class="col-12 col-sm-8 col-md-9">
+      <div th:replace="~{fragments/announcement_details :: announcement_details}"></div>
+    </div>
+  </div>
+</div>
+</html>

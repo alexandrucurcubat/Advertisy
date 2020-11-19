@@ -12,8 +12,8 @@
 <main th:if="${loginFragment}">
   <div th:replace="~{fragments/login :: login}"></div>
 </main>
-<main th:if="${announcementsFragment}">
-  <div th:replace="~{fragments/announcements :: announcements}"></div>
+<main th:if="${homeFragment}">
+  <div th:replace="~{fragments/home :: home}"></div>
 </main>
 <main th:if="${createAccountFragment}">
   <div th:replace="~{fragments/create_account :: create_account}"></div>

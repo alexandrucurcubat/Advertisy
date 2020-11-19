@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+>
+<div th:fragment="announcement_categories">
+  <ul class="list-group">
+    <a
+      th:class="${activeCategory} eq 'all'
+              ? 'active list-group-item list-group-item-action font-weight-bold'
+              : 'list-group-item list-group-item-action font-weight-bold'"
+      href="/announcements"
+    >Toate anunțurile</a>
+    <a
+      th:each="category: ${categories}"
+      th:href="'/announcements/category/' + ${category.id}"
+      th:text="${category.name}"
+      th:class="${activeCategory} eq ${category.id}
+              ? 'active list-group-item list-group-item-action font-weight-bold'
+              : 'list-group-item list-group-item-action font-weight-bold'"
+    ></a>
+  </ul>
+</div>
+</html>

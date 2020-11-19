@@ -4,57 +4,35 @@
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:th="http://www.thymeleaf.org"
 >
-<div th:fragment="announcements" class="container-fluid">
-  <div class="row mt-3">
-    <!-- Announcement Categories -->
-    <div class="col-12 col-sm-4 col-md-3 mb-5">
-      <ul class="list-group">
-        <a
-          th:class="${activeCategory} eq 'all'
-              ? 'active list-group-item list-group-item-action font-weight-bold'
-              : 'list-group-item list-group-item-action font-weight-bold'"
-          href="/announcements/"
-        >Toate anunțurile</a>
-        <a
-          th:each="category: ${categories}"
-          th:href="'/announcements/category/' + ${category.id}"
-          th:text="${category.name}"
-          th:class="${activeCategory} eq ${category.id}
-              ? 'active list-group-item list-group-item-action font-weight-bold'
-              : 'list-group-item list-group-item-action font-weight-bold'"
-        ></a>
-      </ul>
-    </div>
-    <!-- Announcemnets -->
-    <div th:if="${showAnnouncements}" class="col-12 col-sm-8 col-md-9">
-      <div th:if="${#lists.isEmpty(announcements)}" class="alert alert-light font-weight-bold" role="alert">
-        Deocamdată nu sunt anunțuri de afișat.
-      </div>
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
-        <div class="col mb-4" th:each="announcement: ${announcements}">
-          <a
-            th:href="'/announcements/' + ${announcement.id}"
-            class="text-secondary text-decoration-none"
+<div th:fragment="announcements">
+  <div th:if="${#lists.isEmpty(announcements)}" class="alert alert-light font-weight-bold" role="alert">
+    Deocamdată nu sunt anunțuri de afișat.
+  </div>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+    <div class="col mb-4" th:each="announcement: ${announcements}">
+      <a
+        th:href="'/announcements/' + ${announcement.id}"
+        class="text-secondary text-decoration-none"
+      >
+        <div class="card h-100">
+          <img
+            th:src="${announcement.image} ? '/image/' + ${announcement.id} : '/img/logo_transparent.png'"
+            class="card-img-top"
+            th:alt="${announcement.title}"
           >
-            <div class="card h-100">
-              <img
-                th:src="${announcement.image} ? '/image/' + ${announcement.id} : '/img/logo_transparent.png'"
-                class="card-img-top"
-                th:alt="${announcement.title}"
-              >
-              <div class="card-body text-center">
-                <h5 class="card-title" th:text="${announcement.title}"></h5>
-                <p class="card-text" th:text="${announcement.shortDescription}"></p>
-              </div>
-              <div class="card-footer text-center">
-                <h6
-                  th:text="${#numbers.formatDecimal(announcement.price, 0, 2)} + ' ' + ${announcement.currency.acronym}"
-                ></h6>
-              </div>
-              <ul class="list-group list-group-flush text-center">
-                <li class="list-group-item">
-                  <span class="card-text small font-weight-bold" th:text="${announcement.views}"></span>
-                  <span class="card-text font-weight-bold">
+          <div class="card-body text-center">
+            <h5 class="card-title" th:text="${announcement.title}"></h5>
+            <p class="card-text" th:text="${announcement.shortDescription}"></p>
+          </div>
+          <div class="card-footer text-center">
+            <h6
+              th:text="${#numbers.formatDecimal(announcement.price, 0, 2)} + ' ' + ${announcement.currency.acronym}"
+            ></h6>
+          </div>
+          <ul class="list-group list-group-flush text-center">
+            <li class="list-group-item">
+              <span class="card-text small font-weight-bold" th:text="${announcement.views}"></span>
+              <span class="card-text font-weight-bold">
                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor"
                          xmlns="http://www.w3.org/2000/svg">
                       <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
@@ -62,134 +40,19 @@
                             d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
                     </svg>
                   </span>
-                  <div
-                    class="card-text small"
-                    th:text="'Adăugat de ' + ${announcement.user.username}"
-                  ></div>
-                  <div
-                    class="card-text small"
-                    th:text="${#dates.format(announcement.publicationDate, 'dd.MM.yyyy HH:mm')}"
-                  ></div>
-                </li>
-              </ul>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Announcement Details -->
-    <div th:if="${showAnnouncementDetails}" class="col-12 col-sm-8 col-md-9">
-      <div class="card">
-        <div class="card-header bg-light text-dark">
-          <ul class="nav nav-pills card-header-pills justify-content-between">
-            <li class="nav-item">
-              <span th:text="${#dates.format(announcement.publicationDate, 'dd.MM.yyyy HH:mm')}"></span>
-            </li>
-            <li class="nav-item float-right">
-              <span class="font-weight-bold" th:text="${announcement.views}"></span>
-              <span>
-                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor"
-                     xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                  <path fill-rule="evenodd"
-                        d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                </svg>
-              </span>
+              <div
+                class="card-text small"
+                th:text="'Adăugat de ' + ${announcement.user.username}"
+              ></div>
+              <div
+                class="card-text small"
+                th:text="${#dates.format(announcement.publicationDate, 'dd.MM.yyyy HH:mm')}"
+              ></div>
             </li>
           </ul>
         </div>
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <h5 class="card-title" th:text="${announcement.title}"></h5>
-            <button type="button" class="btn btn-outline-danger">
-              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-shield-fill-exclamation"
-                   fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                      d="M8 .5c-.662 0-1.77.249-2.813.525a61.11 61.11 0 0 0-2.772.815 1.454 1.454 0 0 0-1.003 1.184c-.573 4.197.756 7.307 2.368 9.365a11.192 11.192 0 0 0 2.417 2.3c.371.256.715.451 1.007.586.27.124.558.225.796.225s.527-.101.796-.225c.292-.135.636-.33 1.007-.586a11.191 11.191 0 0 0 2.418-2.3c1.611-2.058 2.94-5.168 2.367-9.365a1.454 1.454 0 0 0-1.003-1.184 61.09 61.09 0 0 0-2.772-.815C9.77.749 8.663.5 8 .5zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.553.553 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
-              </svg>
-              Raportează
-            </button>
-          </div>
-          <div class="row">
-            <div class="col">
-              <img
-                id="user-image"
-                th:src="${announcement.image} ? '/image/' + ${announcement.id} : '/img/logo_transparent.png'"
-                width="100%"
-                th:alt="${announcement.title}"
-              />
-            </div>
-            <div class="col">
-              <span class="text-muted">Descriere:</span>
-              <p class="card-text" th:text="${announcement.longDescription}"></p>
-              <span class="text-muted">
-                Preț:
-              </span>
-              <h6
-                class="card-text font-weight-bold"
-                th:text="${#numbers.formatDecimal(announcement.price, 0, 2)} + ' ' + ${announcement.currency.acronym}"
-              ></h6>
-              <hr>
-              <span class="text-muted">
-                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor"
-                     xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd"
-                        d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                </svg>
-                Adăugat de:
-              </span>
-              <h6
-                class="card-text"
-                th:text="${announcement.user.username}"
-              ></h6>
-              <div th:if="((${announcement.user.address} ne null) and (${announcement.user.address.county} ne null))
-                or (${announcement.user.address} ne null) and (${announcement.user.address.place} ne null)
-                or (${announcement.user.address} ne null) and (${announcement.user.address.streetAddress} ne null)"
-              >
-                <div class="text-muted">
-                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-geo-alt-fill" fill="currentColor"
-                       xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                          d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                  </svg>
-                  <span
-                    th:if="(${announcement.user.address} ne null) and (${announcement.user.address.county} ne null)"
-                    th:text="${announcement.user.address.county.name}"
-                  >
-                  </span>
-                </div>
-                </span>
-                <span
-                  th:if="(${announcement.user.address} ne null) and (${announcement.user.address.place} ne null)"
-                  class="card-text"
-                  th:text="${announcement.user.address.place}"
-                ></span>
-                <span
-                  th:if="(${announcement.user.address} ne null) and (${announcement.user.address.streetAddress} ne null)"
-                  class="card-text"
-                  th:text="${announcement.user.address.streetAddress}"
-                ></span>
-              </div>
-              <span class="text-muted">
-                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-telephone-fill" fill="currentColor"
-                     xmlns="http://www.w3.org/2000/svg">
-                   <path fill-rule="evenodd"
-                         d="M2.267.98a1.636 1.636 0 0 1 2.448.152l1.681 2.162c.309.396.418.913.296 1.4l-.513 2.053a.636.636 0 0 0 .167.604L8.65 9.654a.636.636 0 0 0 .604.167l2.052-.513a1.636 1.636 0 0 1 1.401.296l2.162 1.681c.777.604.849 1.753.153 2.448l-.97.97c-.693.693-1.73.998-2.697.658a17.47 17.47 0 0 1-6.571-4.144A17.47 17.47 0 0 1 .639 4.646c-.34-.967-.035-2.004.658-2.698l.97-.969z"/>
-                </svg>
-                Telefon:
-              </span>
-              <h4 class="card-text text-main" th:text="${announcement.user.phone}"></h4>
-            </div>
-          </div>
-        </div>
-      </div>
+      </a>
     </div>
   </div>
-  <script>
-      $(function () {
-          $('[data-toggle="tooltip"]').tooltip()
-      });
-  </script>
 </div>
 </html>
