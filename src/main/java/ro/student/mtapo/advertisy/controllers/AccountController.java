@@ -29,7 +29,7 @@ public class AccountController {
     }
 
     @GetMapping("create")
-    public String getCreateAccountPage(Model model) {
+    public String createAccountForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("principal", authentication.getPrincipal());
         model.addAttribute("roles", authentication.getAuthorities());

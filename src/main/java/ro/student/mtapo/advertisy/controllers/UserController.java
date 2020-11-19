@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping("account")
-    public String getUserAccountPage(Model model) {
+    public String userAccountForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("user", userService.getUserByEmail((String) authentication.getPrincipal()));
         model.addAttribute("accountFragment", true);
