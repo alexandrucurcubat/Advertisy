@@ -34,26 +34,37 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
         <!-- Account btn -->
-        <li class="nav-item mr-5">
-          <a class="nav-link" href="#">
+        <li th:if="${principal} eq 'anonymousUser'" class="nav-item">
+          <a
+            class="nav-link"
+            href="/login"
+          >
             <button
               type="button"
               class="btn btn-dark btn-lg font-weight-bold"
-              data-toggle="modal"
-              data-target="#loginModal"
             >
               Contul meu
             </button>
           </a>
         </li>
-        <!-- New Announcement btn -->
-        <li class="nav-item">
-          <a class="nav-link" href="#">
+        <li th:if="${principal} neq 'anonymousUser'" class="nav-item">
+          <a
+            class="nav-link"
+            href="/user/account"
+          >
             <button
               type="button"
-              class="btn btn-light btn-lg font-weight-bold"
-              data-toggle="modal"
-              data-target="#loginModal"
+              class="btn btn-dark btn-lg font-weight-bold"
+            >
+              Contul meu
+            </button>
+          </a>
+        </li>
+        <li th:if="${principal} neq 'anonymousUser'" class="nav-item">
+          <a class="nav-link" href="/announcement/add">
+            <button
+              type="button"
+              class="btn btn-main btn-lg font-weight-bold"
             >Adaugă anunț
             </button>
           </a>
@@ -79,6 +90,5 @@
       </div>
     </form>
   </nav>
-  <div th:replace="~{fragments/authentication_modal :: authentication_modal}"></div>
 </header>
 </html>

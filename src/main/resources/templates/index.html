@@ -6,12 +6,20 @@
 >
 <head th:replace="~{fragments/head :: head}"></head>
 <body class="bg-light">
-<header th:replace="~{fragments/header :: header}"></header>
+<div th:if="${loginFragment ne true}">
+  <header th:replace="~{fragments/header :: header}"></header>
+</div>
+<main th:if="${loginFragment}">
+  <div th:replace="~{fragments/login :: login}"></div>
+</main>
 <main th:if="${announcementsFragment}">
   <div th:replace="~{fragments/announcements :: announcements}"></div>
 </main>
 <main th:if="${createAccountFragment}">
   <div th:replace="~{fragments/create_account :: create_account}"></div>
+</main>
+<main th:if="${accountFragment}">
+  <div th:replace="~{fragments/account :: account}"></div>
 </main>
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>

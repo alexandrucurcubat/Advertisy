@@ -1,5 +1,6 @@
 :root {
   --main-color: #40A798;
+  --main-color-dark: #378d80;
   --light-gray: rgba(0, 0, 0, .125);
 }
 
@@ -9,6 +10,17 @@
 
 .bg-main {
   background: var(--main-color);
+}
+
+.btn-main:hover {
+  color: #fff;
+  background: var(--main-color-dark);
+}
+
+.btn-main {
+  color: #fff;
+  background-color: var(--main-color);
+  border-color: var(--main-color);
 }
 
 /* Custom scroll bar */
@@ -79,16 +91,4 @@ input[type="file"]:focus,
   height: auto;
   padding: 10px;
   font-size: 16px;
-}
-
-.form-authentication input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.form-authentication input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
 }

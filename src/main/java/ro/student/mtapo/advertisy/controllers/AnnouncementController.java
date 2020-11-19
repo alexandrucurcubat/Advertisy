@@ -1,6 +1,8 @@
 package ro.student.mtapo.advertisy.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,9 @@ public class AnnouncementController {
 
     @GetMapping("")
     public String getAnnouncements(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("principal", authentication.getPrincipal());
+        model.addAttribute("roles", authentication.getAuthorities());
         model.addAttribute("announcementsFragment", true);
         model.addAttribute("showAnnouncements", true);
         model.addAttribute("announcements", announcementService.getAnnouncements());
@@ -30,6 +35,9 @@ public class AnnouncementController {
 
     @GetMapping("/{announcementId}")
     public String getAnnouncement(@PathVariable int announcementId, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("principal", authentication.getPrincipal());
+        model.addAttribute("roles", authentication.getAuthorities());
         model.addAttribute("announcementsFragment", true);
         model.addAttribute("showAnnouncementDetails", true);
         model.addAttribute("announcement", announcementService.getAnnouncementById(announcementId));
@@ -40,6 +48,9 @@ public class AnnouncementController {
 
     @GetMapping("category/{categoryId}")
     public String getAnnouncementsByCategory(@PathVariable int categoryId, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("principal", authentication.getPrincipal());
+        model.addAttribute("roles", authentication.getAuthorities());
         model.addAttribute("announcementsFragment", true);
         model.addAttribute("showAnnouncements", true);
         model.addAttribute("announcements", announcementService.getAnnouncementsByCategoryId(categoryId));

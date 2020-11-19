@@ -1,13 +1,11 @@
 package ro.student.mtapo.advertisy.controllers;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ro.student.mtapo.advertisy.services.CountyService;
@@ -17,29 +15,33 @@ import ro.student.mtapo.advertisy.util.AccountDetails;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("account")
-public class AccountController {
+@RequestMapping("user")
+public class UserController {
 
-    CountyService countyService;
     UserService userService;
+    CountyService countyService;
 
-    public AccountController(CountyService countyService, UserService userService) {
-        this.countyService = countyService;
+    public UserController(UserService userService, CountyService countyService) {
         this.userService = userService;
+        this.countyService = countyService;
     }
 
-    @GetMapping("create")
-    public String getCreateAccountPage(Model model) {
+    @GetMapping("account")
+    public String getUserAccountPage(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("principal", authentication.getPrincipal());
-        model.addAttribute("roles", authentication.getAuthorities());
-        model.addAttribute("createAccountFragment", true);
+        model.addAttribute("user", userService.getUserByEmail((String) authentication.getPrincipal()));
+        model.addAttribute("accountFragment", true);
         model.addAttribute("counties", countyService.getAllCounties());
         return "index";
     }
 
-    @PostMapping("create")
-    public String createAccount(
+    @GetMapping("image/{id}")
+    public ResponseEntity<byte[]> getUserImage(@PathVariable int id) {
+        return userService.getUserImage(id);
+    }
+
+    @PostMapping("update")
+    public String updateAccount(
             @RequestParam String email,
             @RequestParam String username,
             @RequestParam String phone,
@@ -61,14 +63,14 @@ public class AccountController {
             details.setPlace(place);
             details.setStreetAddress(streetAddress);
             details.setUserImage(userImage);
-            if (userService.createAccount(details) != null) {
-                redirectAttributes.addFlashAttribute("accountCreated", true);
-                return "redirect:/login";
+            if (userService.updateAccount(details) != null) {
+                redirectAttributes.addFlashAttribute("accountUpdated", true);
+                return "redirect:/user/account";
             }
-            redirectAttributes.addFlashAttribute("emailExistsError", true);
+            redirectAttributes.addFlashAttribute("passwordError", true);
         } else {
             redirectAttributes.addFlashAttribute("passwordMatchError", true);
         }
-        return "redirect:/account/create";
+        return "redirect:/user/account";
     }
 }
