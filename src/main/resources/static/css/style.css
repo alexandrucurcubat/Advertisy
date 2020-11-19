@@ -75,7 +75,9 @@ input[type="tel"]:focus,
 input[type="color"]:focus,
 input[type="file"]:focus,
 .uneditable-input:focus,
-.form-control:focus {
+.form-control:focus,
+.btn:focus,
+.btn.focus {
   border-color: var(--light-gray);
   box-shadow: 0 0 0 0.1rem var(--light-gray);
   outline: 0 none;
@@ -96,7 +98,8 @@ input[type="file"]:focus,
 }
 
 .form-authentication .form-control,
-.form-create-account .form-control {
+.form-create-account .form-control,
+.form-create-announcement .form-control {
   position: relative;
   box-sizing: border-box;
   height: auto;

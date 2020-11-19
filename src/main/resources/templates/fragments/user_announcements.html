@@ -5,16 +5,26 @@
   xmlns:th="http://www.thymeleaf.org"
 >
 <div th:fragment="user_announcements" class="container-fluid">
+  <div
+    th:if="${announcementDeleted}"
+    class="alert alert-success alert-dismissible fade show text-center mt-3"
+    role="alert"
+  >
+    Anunțul a fost șters.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
   <div th:if="${#lists.isEmpty(announcements)}" class="alert alert-light font-weight-bold" role="alert">
     Deocamdată nu sunt anunțuri de afișat.
   </div>
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 justify-content-center">
     <div class="col my-4" th:each="announcement: ${announcements}">
-      <div class="card h-100 text-center">
-        <a
-          th:href="'/user/announcement/' + ${announcement.id}"
-          class="text-secondary text-decoration-none"
-        >
+      <a
+        th:href="'/user/announcement/' + ${announcement.id}"
+        class="text-secondary text-decoration-none"
+      >
+        <div class="card h-100 text-center">
           <img
             th:src="${announcement.image} ? '/image/' + ${announcement.id} : '/img/logo_transparent.png'"
             th:class="(${announcement.isVisible} and ${announcement.isActive}) ? 'card-img-top' : 'card-img-top opacity-reduced'"
@@ -69,57 +79,9 @@
               th:text="'Adăugat pe ' + ${#dates.format(announcement.publicationDate, 'dd.MM.yyyy HH:mm')}"
             ></div>
           </div>
-        </a>
-        <button
-          type="button"
-          id="deleteAnnouncementModal-btn"
-          class="btn btn-danger"
-          data-toggle="modal"
-          data-target="#deleteAnnouncementModal"
-          th:attr="data-id=${announcement.id}, data-title=${announcement.title}"
-        >
-          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor"
-               xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd"
-                  d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
-          </svg>
-        </button>
-      </div>
+        </div>
+      </a>
     </div>
   </div>
-  <!-- Delete announcement modal -->
-  <div
-    class="modal fade"
-    id="deleteAnnouncementModal"
-    tabindex="-1"
-    aria-labelledby="deleteAnnouncementModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteAnnouncementModalLabel">Șterge anunțul?</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-footer">
-          <form action="/user/announcement/delete" method="post">
-            <input type="hidden" name="announcementId" id="announcementId">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Anulează</button>
-            <button type="submit" class="btn btn-danger">Șterge</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <script>
-      $(document).on('click', '#deleteAnnouncementModal-btn', function () {
-          const announcementId = $(this).data('id');
-          const announcementTitle = $(this).data('title');
-          $('#announcementId').val(announcementId);
-          $('#deleteAnnouncementModalLabel').text('Șterge anunțul? (' + announcementTitle + ')');
-      });
-  </script>
 </div>
 </html>

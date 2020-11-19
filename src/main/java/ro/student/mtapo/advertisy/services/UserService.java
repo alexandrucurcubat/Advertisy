@@ -9,13 +9,11 @@ import org.springframework.stereotype.Service;
 import ro.student.mtapo.advertisy.models.Address;
 import ro.student.mtapo.advertisy.models.County;
 import ro.student.mtapo.advertisy.models.User;
-import ro.student.mtapo.advertisy.repositories.AddressRepository;
-import ro.student.mtapo.advertisy.repositories.CountyRepository;
-import ro.student.mtapo.advertisy.repositories.RoleRepository;
-import ro.student.mtapo.advertisy.repositories.UserRepository;
+import ro.student.mtapo.advertisy.repositories.*;
 import ro.student.mtapo.advertisy.util.AccountDetails;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -101,6 +99,10 @@ public class UserService {
     public County getCountyById(int countyId) {
         Optional<County> optionalCounty = countyRepository.findById(countyId);
         return optionalCounty.orElse(null);
+    }
+
+    public List<County> getAllCounties() {
+        return countyRepository.findAll();
     }
 
     public ResponseEntity<byte[]> getUserImage(int userId) {

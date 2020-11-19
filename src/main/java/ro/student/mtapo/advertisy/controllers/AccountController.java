@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ro.student.mtapo.advertisy.services.CountyService;
 import ro.student.mtapo.advertisy.services.UserService;
 import ro.student.mtapo.advertisy.util.AccountDetails;
 
@@ -20,11 +19,9 @@ import java.io.IOException;
 @RequestMapping("account")
 public class AccountController {
 
-    CountyService countyService;
     UserService userService;
 
-    public AccountController(CountyService countyService, UserService userService) {
-        this.countyService = countyService;
+    public AccountController(UserService userService) {
         this.userService = userService;
     }
 
@@ -33,7 +30,7 @@ public class AccountController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("principal", authentication.getPrincipal());
         model.addAttribute("createAccountFragment", true);
-        model.addAttribute("counties", countyService.getAllCounties());
+        model.addAttribute("counties", userService.getAllCounties());
         return "index";
     }
 

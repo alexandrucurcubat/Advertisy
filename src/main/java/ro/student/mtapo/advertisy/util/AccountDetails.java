@@ -86,7 +86,6 @@ public class AccountDetails {
                 ", countyId=" + countyId +
                 ", place='" + place + '\'' +
                 ", streetAddress='" + streetAddress + '\'' +
-                ", userImage=" + userImage +
                 '}';
     }
 }
