@@ -12,12 +12,23 @@
   background: var(--main-color);
 }
 
+.btn-main {
+  color: #fff;
+  background-color: var(--main-color);
+  border-color: var(--main-color);
+}
+
 .btn-main:hover {
   color: #fff;
   background: var(--main-color-dark);
 }
 
-.btn-main {
+.btn-outline-main {
+  color: var(--main-color);
+  border-color: var(--main-color);
+}
+
+.btn-outline-main:hover {
   color: #fff;
   background-color: var(--main-color);
   border-color: var(--main-color);
@@ -91,4 +102,8 @@ input[type="file"]:focus,
   height: auto;
   padding: 10px;
   font-size: 16px;
+}
+
+.opacity-reduced {
+  opacity: 0.5;
 }

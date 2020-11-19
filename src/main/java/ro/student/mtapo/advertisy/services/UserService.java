@@ -93,18 +93,18 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public User getUserById(int id) {
-        Optional<User> optionalUser = userRepository.findById(id);
+    public User getUserById(int userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
         return optionalUser.orElse(null);
     }
 
-    public County getCountyById(int id) {
-        Optional<County> optionalCounty = countyRepository.findById(id);
+    public County getCountyById(int countyId) {
+        Optional<County> optionalCounty = countyRepository.findById(countyId);
         return optionalCounty.orElse(null);
     }
 
-    public ResponseEntity<byte[]> getUserImage(int id) {
-        User user = getUserById(id);
+    public ResponseEntity<byte[]> getUserImage(int userId) {
+        User user = getUserById(userId);
         if (user != null) {
             byte[] image = user.getImage();
             String mimeType = user.getImageMimeType();

@@ -6,5 +6,10 @@ import ro.student.mtapo.advertisy.models.Announcement;
 import java.util.List;
 
 public interface AnnouncementRepository extends JpaRepository<Announcement, Integer> {
-    List<Announcement> findByCategory_Id(int id);
+
+    List<Announcement> findByCategory_Id(int categoryId);
+
+    List<Announcement> findByIsActiveTrueAndIsVisibleTrue();
+
+    List<Announcement> findByUser_Id(int userId);
 }

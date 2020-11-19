@@ -12,6 +12,6 @@ public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHand
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException {
-        getRedirectStrategy().sendRedirect(request, response, "login_error");
+        getRedirectStrategy().sendRedirect(request, response, "loginError");
     }
 }

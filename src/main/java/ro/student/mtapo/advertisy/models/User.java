@@ -145,7 +145,6 @@ public class User {
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
                 ", address=" + address +
-                ", image=" + Arrays.toString(image) +
                 ", imageMimeType='" + imageMimeType + '\'' +
                 ", role=" + role +
                 ", isActive=" + isActive +

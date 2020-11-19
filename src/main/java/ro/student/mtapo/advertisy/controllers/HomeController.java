@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ro.student.mtapo.advertisy.models.Announcement;
 import ro.student.mtapo.advertisy.services.AnnouncementService;
 
 @Controller
@@ -30,25 +31,30 @@ public class HomeController {
     public String announcements(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("principal", authentication.getPrincipal());
-        model.addAttribute("roles", authentication.getAuthorities());
         model.addAttribute("homeFragment", true);
         model.addAttribute("showAnnouncements", true);
-        model.addAttribute("announcements", announcementService.getAnnouncements());
+        model.addAttribute("announcements", announcementService.getVisibleAndActiveAnnouncements());
         model.addAttribute("categories", announcementService.getAnnouncementCategories());
         model.addAttribute("activeCategory", "all");
         return "index";
     }
 
-    @GetMapping("announcements/{announcementId}")
+    @GetMapping("announcement/{announcementId}")
     public String announcement(@PathVariable int announcementId, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("principal", authentication.getPrincipal());
-        model.addAttribute("roles", authentication.getAuthorities());
         model.addAttribute("homeFragment", true);
-        model.addAttribute("showAnnouncementDetails", true);
-        model.addAttribute("announcement", announcementService.getAnnouncementById(announcementId));
         model.addAttribute("categories", announcementService.getAnnouncementCategories());
-        model.addAttribute("activeCategory", announcementService.getAnnouncementCategoryByAnnouncementId(announcementId).getId());
+        Announcement announcement = announcementService.getAnnouncementById(announcementId);
+        if (announcement.getIsActive() && announcement.getIsVisible()) {
+            model.addAttribute("showAnnouncementDetails", true);
+            model.addAttribute("announcement", announcement);
+            model.addAttribute("activeCategory", announcementService.getAnnouncementCategoryByAnnouncementId(announcementId).getId());
+        } else {
+            model.addAttribute("showAnnouncements", true);
+            model.addAttribute("announcements", announcementService.getVisibleAndActiveAnnouncements());
+            model.addAttribute("activeCategory", "all");
+        }
         return "index";
     }
 
@@ -56,7 +62,6 @@ public class HomeController {
     public String announcementsByCategory(@PathVariable int categoryId, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("principal", authentication.getPrincipal());
-        model.addAttribute("roles", authentication.getAuthorities());
         model.addAttribute("homeFragment", true);
         model.addAttribute("showAnnouncements", true);
         model.addAttribute("announcements", announcementService.getAnnouncementsByCategoryId(categoryId));
@@ -74,12 +79,11 @@ public class HomeController {
     public String loginForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("principal", authentication.getPrincipal());
-        model.addAttribute("roles", authentication.getAuthorities());
         model.addAttribute("loginFragment", true);
         return "index";
     }
 
-    @GetMapping("login_error")
+    @GetMapping("loginError")
     public String loginError(RedirectAttributes attributes) {
         attributes.addFlashAttribute("loginError", true);
         return "redirect:login";

@@ -32,7 +32,6 @@ public class AccountController {
     public String createAccountForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("principal", authentication.getPrincipal());
-        model.addAttribute("roles", authentication.getAuthorities());
         model.addAttribute("createAccountFragment", true);
         model.addAttribute("counties", countyService.getAllCounties());
         return "index";

@@ -19,17 +19,20 @@ public class AnnouncementService {
     AnnouncementRepository announcementRepository;
     AnnouncementCategoryRepository announcementCategoryRepository;
 
-    public AnnouncementService(AnnouncementRepository announcementRepository, AnnouncementCategoryRepository announcementCategoryRepository) {
+    public AnnouncementService(
+            AnnouncementRepository announcementRepository,
+            AnnouncementCategoryRepository announcementCategoryRepository
+    ) {
         this.announcementRepository = announcementRepository;
         this.announcementCategoryRepository = announcementCategoryRepository;
     }
 
-    public List<Announcement> getAnnouncements() {
-        return announcementRepository.findAll();
+    public List<Announcement> getVisibleAndActiveAnnouncements() {
+        return announcementRepository.findByIsActiveTrueAndIsVisibleTrue();
     }
 
-    public Announcement getAnnouncementById(int id) {
-        Optional<Announcement> optionalAnnouncement = announcementRepository.findById(id);
+    public Announcement getAnnouncementById(int announcementId) {
+        Optional<Announcement> optionalAnnouncement = announcementRepository.findById(announcementId);
         return optionalAnnouncement.orElse(null);
     }
 
@@ -37,20 +40,24 @@ public class AnnouncementService {
         return announcementCategoryRepository.findAll();
     }
 
-    public AnnouncementCategory getAnnouncementCategoryByAnnouncementId(int id) {
-        Announcement announcement = getAnnouncementById(id);
+    public AnnouncementCategory getAnnouncementCategoryByAnnouncementId(int announcementId) {
+        Announcement announcement = getAnnouncementById(announcementId);
         if (announcement != null) {
             return announcement.getCategory();
         }
         return null;
     }
 
-    public List<Announcement> getAnnouncementsByCategoryId(int id) {
-        return announcementRepository.findByCategory_Id(id);
+    public List<Announcement> getAnnouncementsByCategoryId(int categoryId) {
+        return announcementRepository.findByCategory_Id(categoryId);
     }
 
-    public ResponseEntity<byte[]> getAnnouncementImage(int id) {
-        Announcement announcement = getAnnouncementById(id);
+    public List<Announcement> getAnnouncementsByUserId(int userId) {
+        return announcementRepository.findByUser_Id(userId);
+    }
+
+    public ResponseEntity<byte[]> getAnnouncementImage(int announcementId) {
+        Announcement announcement = getAnnouncementById(announcementId);
         if (announcement != null) {
             byte[] image = announcement.getImage();
             String mimeType = announcement.getImageMimeType();

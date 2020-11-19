@@ -12,14 +12,26 @@
 <main th:if="${loginFragment}">
   <div th:replace="~{fragments/login :: login}"></div>
 </main>
+<main th:if="${errorFragment}">
+  <div th:replace="~{fragments/error :: error}"></div>
+</main>
+<main th:if="${error404Fragment}">
+  <div th:replace="~{fragments/error_404 :: error_404}"></div>
+</main>
 <main th:if="${homeFragment}">
   <div th:replace="~{fragments/home :: home}"></div>
 </main>
 <main th:if="${createAccountFragment}">
   <div th:replace="~{fragments/create_account :: create_account}"></div>
 </main>
-<main th:if="${accountFragment}">
-  <div th:replace="~{fragments/account :: account}"></div>
+<main th:if="${userAccountFragment}">
+  <div th:replace="~{fragments/user_account :: user_account}"></div>
+</main>
+<main th:if="${userAnnouncements}">
+  <div th:replace="~{fragments/user_announcements :: user_announcements}"></div>
+</main>
+<main th:if="${userAnnouncementDetails}">
+  <div th:replace="~{fragments/user_announcement_details :: user_announcement_details}"></div>
 </main>
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>

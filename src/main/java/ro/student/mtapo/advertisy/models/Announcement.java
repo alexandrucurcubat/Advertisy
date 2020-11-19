@@ -146,19 +146,19 @@ public class Announcement {
         this.views = views;
     }
 
-    public boolean isActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
+    public void setIsActive(boolean active) {
         isActive = active;
     }
 
-    public boolean isVisible() {
+    public boolean getIsVisible() {
         return isVisible;
     }
 
-    public void setVisible(boolean visible) {
+    public void setIsVisible(boolean visible) {
         isVisible = visible;
     }
 
@@ -179,7 +179,6 @@ public class Announcement {
                 ", title='" + title + '\'' +
                 ", shortDescription='" + shortDescription + '\'' +
                 ", longDescription='" + longDescription + '\'' +
-                ", image=" + Arrays.toString(image) +
                 ", imageMimeType='" + imageMimeType + '\'' +
                 ", price=" + price +
                 ", currency=" + currency +

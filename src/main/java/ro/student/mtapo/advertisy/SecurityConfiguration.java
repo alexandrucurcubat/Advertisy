@@ -14,15 +14,15 @@ import ro.student.mtapo.advertisy.util.Roles;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final CustomAuthenticationProvider customAuthenticationProvider;
+    private final CustomAuthProvider customAuthProvider;
 
-    public SecurityConfiguration(CustomAuthenticationProvider customAuthenticationProvider) {
-        this.customAuthenticationProvider = customAuthenticationProvider;
+    public SecurityConfiguration(CustomAuthProvider customAuthProvider) {
+        this.customAuthProvider = customAuthProvider;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(customAuthenticationProvider);
+        auth.authenticationProvider(customAuthProvider);
     }
 
     @Override
@@ -37,12 +37,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .loginProcessingUrl("/perform_login")
-                .defaultSuccessUrl("/")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/user/account")
                 .failureHandler(authenticationFailureHandler())
                 .and()
                 .logout()
-                .logoutUrl("/perform_logout")
+                .logoutUrl("/logout")
                 .deleteCookies("JSESSIONID");
     }
 

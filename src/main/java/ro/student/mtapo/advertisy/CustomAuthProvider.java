@@ -13,11 +13,11 @@ import ro.student.mtapo.advertisy.repositories.UserRepository;
 import java.util.Collections;
 
 @Component
-public class CustomAuthenticationProvider implements AuthenticationProvider {
+public class CustomAuthProvider implements AuthenticationProvider {
     UserRepository userRepository;
     PasswordEncoder encoder;
 
-    public CustomAuthenticationProvider(UserRepository userRepository, PasswordEncoder encoder) {
+    public CustomAuthProvider(UserRepository userRepository, PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.encoder = encoder;
     }
