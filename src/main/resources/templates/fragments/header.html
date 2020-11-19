@@ -75,10 +75,16 @@
 
   <!-- Search form -->
   <nav th:if="${homeFragment}" class="navbar navbar-light bg-dark">
-    <form class="form-inline input-group input-group-lg pb-3 px-2">
-      <input class="form-control" type="search" placeholder="Caută aici..." aria-label="Search">
+    <form action="/search" method="post" class="form-inline input-group input-group-lg pb-3 px-2">
+      <input
+        class="form-control"
+        type="search"
+        name="queryString"
+        placeholder="Caută aici..."
+        aria-label="Search"
+      >
       <div class="input-group-append">
-        <button class="btn btn-light" type="button">
+        <button class="btn btn-light" type="submit">
           <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor"
                xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd"

@@ -155,4 +155,8 @@ public class AnnouncementService {
         announcement.setViews(announcement.getViews() + 1);
         announcementRepository.save(announcement);
     }
+
+    public List<Announcement> searchAnnouncements(String queryString) {
+        return announcementRepository.findAllByTitleContaining(queryString);
+    }
 }

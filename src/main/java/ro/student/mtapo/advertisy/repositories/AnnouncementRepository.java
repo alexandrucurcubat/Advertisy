@@ -12,4 +12,6 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Inte
     List<Announcement> findByIsActiveTrueAndIsVisibleTrue();
 
     List<Announcement> findByUser_Id(int userId);
+
+    List<Announcement> findAllByTitleContaining(String queryString);
 }

@@ -5,9 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ro.student.mtapo.advertisy.models.Announcement;
 import ro.student.mtapo.advertisy.services.AnnouncementService;
@@ -68,6 +66,18 @@ public class HomeController {
         model.addAttribute("announcements", announcementService.getAnnouncementsByCategoryId(categoryId));
         model.addAttribute("categories", announcementService.getAnnouncementCategories());
         model.addAttribute("activeCategory", categoryId);
+        return "index";
+    }
+
+    @PostMapping("search")
+    public String searchAnnouncements(@RequestParam String queryString, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("principal", authentication.getPrincipal());
+        model.addAttribute("homeFragment", true);
+        model.addAttribute("showAnnouncements", true);
+        model.addAttribute("announcements", announcementService.searchAnnouncements(queryString));
+        model.addAttribute("categories", announcementService.getAnnouncementCategories());
+        model.addAttribute("activeCategory", "all");
         return "index";
     }
 
