@@ -5,6 +5,26 @@
   xmlns:th="http://www.thymeleaf.org"
 >
 <div th:fragment="announcement_details">
+  <div
+    th:if="${announcementReported}"
+    class="alert alert-success alert-dismissible fade show text-center mb-3"
+    role="alert"
+  >
+    Raportul a fost înregistrat cu succes.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div
+    th:if="${errorReport}"
+    class="alert alert-danger alert-dismissible fade show text-center mb-3"
+    role="alert"
+  >
+    A apărut o problemă la înregistrarea raportului. Încercați mai târziu.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
   <div class="card">
     <div class="card-header bg-light text-dark">
       <ul class="nav nav-pills card-header-pills justify-content-between">
@@ -27,7 +47,14 @@
     <div class="card-body">
       <div class="d-flex justify-content-between mb-3">
         <h5 class="card-title" th:text="${announcement.title}"></h5>
-        <button type="button" class="btn btn-outline-danger">
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          id="reportAnnouncementModalBtn"
+          data-toggle="modal"
+          data-target="#reportAnnouncementModal"
+          th:attr="data-id=${announcement.id}, data-title=${announcement.title}"
+        >
           <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-shield-fill-exclamation"
                fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd"
@@ -108,6 +135,49 @@
         </div>
       </div>
     </div>
+    <!-- Report announcement modal -->
+    <div
+      class="modal fade"
+      id="reportAnnouncementModal"
+      tabindex="-1"
+      aria-labelledby="reportAnnouncementModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="reportAnnouncementModalLabel">Raportează anunțul?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="/announcement/report" method="post">
+            <div class="modal-body">
+              <textarea
+                id="reportMessage"
+                class="form-control"
+                placeholder="Morivul raportului"
+                name="reportMessage"
+                rows="3"
+                required
+              ></textarea>
+            </div>
+            <div class="modal-footer">
+              <input type="hidden" name="announcementId" id="announcementId">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Anulează</button>
+              <button type="submit" class="btn btn-danger">Raportează</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script>
+        $(document).on('click', '#reportAnnouncementModalBtn', function () {
+            const announcementId = $(this).data('id');
+            const announcementTitle = $(this).data('title');
+            $('#announcementId').val(announcementId);
+            $('#reportAnnouncementModalLabel').text('Raportează anunțul? (' + announcementTitle + ')');
+        });
+    </script>
   </div>
-</div>
 </html>

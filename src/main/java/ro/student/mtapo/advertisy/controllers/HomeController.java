@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ro.student.mtapo.advertisy.models.Announcement;
+import ro.student.mtapo.advertisy.models.AnnouncementReport;
 import ro.student.mtapo.advertisy.services.AnnouncementService;
+import ro.student.mtapo.advertisy.util.AnnouncementDetails;
 
 @Controller
 @RequestMapping("")
@@ -86,10 +88,26 @@ public class HomeController {
         return announcementService.getAnnouncementImage(announcementId);
     }
 
+    @PostMapping("announcement/report")
+    public String reportAnnouncement(
+            @RequestParam() int announcementId,
+            @RequestParam() String reportMessage,
+            RedirectAttributes redirectAttributes
+    ) {
+        AnnouncementDetails details = new AnnouncementDetails();
+        details.setAnnouncementId(announcementId);
+        details.setMessage(reportMessage);
+        AnnouncementReport report = announcementService.reportAnnouncement(details);
+        if (report != null) {
+            redirectAttributes.addFlashAttribute("announcementReported", true);
+        } else {
+            redirectAttributes.addFlashAttribute("errorReport", true);
+        }
+        return "redirect:/announcement/" + announcementId;
+    }
+
     @GetMapping("login")
     public String loginForm(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("principal", authentication.getPrincipal());
         model.addAttribute("loginFragment", true);
         return "index";
     }

@@ -11,6 +11,7 @@ public class AnnouncementDetails {
     double price;
     int currencyId;
     MultipartFile announcementImage;
+    String message;
 
     public int getAnnouncementId() {
         return announcementId;
@@ -76,6 +77,14 @@ public class AnnouncementDetails {
         this.announcementImage = announcementImage;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     @Override
     public String toString() {
         return "AnnouncementDetails{" +
@@ -86,6 +95,7 @@ public class AnnouncementDetails {
                 ", longDescription='" + longDescription + '\'' +
                 ", price=" + price +
                 ", currencyId=" + currencyId +
+                ", message='" + message + '\'' +
                 '}';
     }
 }

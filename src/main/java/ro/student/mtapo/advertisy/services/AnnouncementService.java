@@ -5,13 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import ro.student.mtapo.advertisy.models.Announcement;
-import ro.student.mtapo.advertisy.models.AnnouncementCategory;
-import ro.student.mtapo.advertisy.models.Currency;
-import ro.student.mtapo.advertisy.models.User;
-import ro.student.mtapo.advertisy.repositories.AnnouncementCategoryRepository;
-import ro.student.mtapo.advertisy.repositories.AnnouncementRepository;
-import ro.student.mtapo.advertisy.repositories.CurrencyRepository;
+import ro.student.mtapo.advertisy.models.*;
+import ro.student.mtapo.advertisy.repositories.*;
 import ro.student.mtapo.advertisy.util.AnnouncementDetails;
 
 import java.io.IOException;
@@ -25,15 +20,21 @@ public class AnnouncementService {
     AnnouncementRepository announcementRepository;
     AnnouncementCategoryRepository announcementCategoryRepository;
     CurrencyRepository currencyRepository;
+    AnnouncementReportRepository announcementReportRepository;
+    AnnouncementUnbanRequestRepository announcementUnbanRequestRepository;
 
     public AnnouncementService(
             AnnouncementRepository announcementRepository,
             AnnouncementCategoryRepository announcementCategoryRepository,
-            CurrencyRepository currencyRepository
+            CurrencyRepository currencyRepository,
+            AnnouncementReportRepository announcementReportRepository,
+            AnnouncementUnbanRequestRepository announcementUnbanRequestRepository
     ) {
         this.announcementRepository = announcementRepository;
         this.announcementCategoryRepository = announcementCategoryRepository;
         this.currencyRepository = currencyRepository;
+        this.announcementReportRepository = announcementReportRepository;
+        this.announcementUnbanRequestRepository = announcementUnbanRequestRepository;
     }
 
     public List<Announcement> getVisibleAndActiveAnnouncements() {
@@ -158,5 +159,21 @@ public class AnnouncementService {
 
     public List<Announcement> searchAnnouncements(String queryString) {
         return announcementRepository.findAllByTitleContaining(queryString);
+    }
+
+    public AnnouncementReport reportAnnouncement(AnnouncementDetails details) {
+        AnnouncementReport report = new AnnouncementReport();
+        Announcement announcement = getAnnouncementById(details.getAnnouncementId());
+        report.setAnnouncement(announcement);
+        report.setMessage(details.getMessage());
+        return announcementReportRepository.save(report);
+    }
+
+    public AnnouncementUnbanRequest unbanAnnouncementRequest(AnnouncementDetails details) {
+        AnnouncementUnbanRequest unbanRequest = new AnnouncementUnbanRequest();
+        Announcement announcement = getAnnouncementById(details.getAnnouncementId());
+        unbanRequest.setAnnouncement(announcement);
+        unbanRequest.setMessage(details.getMessage());
+        return announcementUnbanRequestRepository.save(unbanRequest);
     }
 }

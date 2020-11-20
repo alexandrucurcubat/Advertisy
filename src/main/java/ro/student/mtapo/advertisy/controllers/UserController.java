@@ -2,6 +2,7 @@ package ro.student.mtapo.advertisy.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ro.student.mtapo.advertisy.models.Announcement;
+import ro.student.mtapo.advertisy.models.AnnouncementUnbanRequest;
 import ro.student.mtapo.advertisy.models.User;
 import ro.student.mtapo.advertisy.services.AnnouncementService;
 import ro.student.mtapo.advertisy.services.UserService;
@@ -35,6 +37,9 @@ public class UserController {
     @GetMapping("account")
     public String userAccountForm(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+            model.addAttribute("admin", true);
+        }
         model.addAttribute("user", userService.getUserByEmail((String) authentication.getPrincipal()));
         model.addAttribute("userAccountFragment", true);
         model.addAttribute("counties", userService.getAllCounties());
@@ -202,5 +207,23 @@ public class UserController {
         }
         redirectAttributes.addFlashAttribute("createError", true);
         return "redirect:/user/announcement/create";
+    }
+
+    @PostMapping("announcement/unban")
+    public String unbanAnnouncement(
+            @RequestParam() int announcementId,
+            @RequestParam() String unbanMessage,
+            RedirectAttributes redirectAttributes
+    ) {
+        AnnouncementDetails details = new AnnouncementDetails();
+        details.setAnnouncementId(announcementId);
+        details.setMessage(unbanMessage);
+        AnnouncementUnbanRequest unbanRequest = announcementService.unbanAnnouncementRequest(details);
+        if (unbanRequest != null) {
+            redirectAttributes.addFlashAttribute("unbanRequest", true);
+        } else {
+            redirectAttributes.addFlashAttribute("unbanRequestError", true);
+        }
+        return "redirect:/user/announcement/" + announcementId;
     }
 }

@@ -26,11 +26,31 @@
     </button>
   </div>
   <div
+    th:if="${unbanRequest}"
+    class="alert alert-success alert-dismissible fade show text-center mt-3"
+    role="alert"
+  >
+    Cererea a fost trimisă spre revizuire.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div
     th:if="${updateError}"
     class="alert alert-danger alert-dismissible fade show text-center mt-3"
     role="alert"
   >
     A apărut o eroare la actualizarea anunțului. Încearcă mai târziu.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div
+    th:if="${unbanRequestError}"
+    class="alert alert-danger alert-dismissible fade show text-center mt-3"
+    role="alert"
+  >
+    A apărut o eroare la înregistrarea cererii. Încercați mai târziu.
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -107,43 +127,62 @@
               <span class="font-weight-bold" th:text="${announcement.views}"></span>
             </div>
           </div>
-          <div th:if="${announcement.isVisible}" class="mt-3">
-            <a th:href="'/user/announcement/hide/' + ${announcement.id}">
-              <button
-                type="button"
-                class="btn btn-outline-danger btn-lg"
-                data-toggle="tooltip"
-                data-placement="left"
-                title="Ascunde anunțul"
-              >
-                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-slash-fill" fill="currentColor"
-                     xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M10.79 12.912l-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z"/>
-                  <path
-                    d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708l-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829z"/>
-                  <path fill-rule="evenodd" d="M13.646 14.354l-12-12 .708-.708 12 12-.708.708z"/>
-                </svg>
-              </button>
-            </a>
+          <div th:if="${announcement.isActive}">
+            <div th:if="${announcement.isVisible}" class="mt-3">
+              <a th:href="'/user/announcement/hide/' + ${announcement.id}">
+                <button
+                  type="button"
+                  class="btn btn-outline-danger btn-lg"
+                  data-toggle="tooltip"
+                  data-placement="left"
+                  title="Ascunde anunțul"
+                >
+                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-slash-fill" fill="currentColor"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M10.79 12.912l-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z"/>
+                    <path
+                      d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708l-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829z"/>
+                    <path fill-rule="evenodd" d="M13.646 14.354l-12-12 .708-.708 12 12-.708.708z"/>
+                  </svg>
+                </button>
+              </a>
+            </div>
+            <div th:if="${!announcement.isVisible}" class="mt-3">
+              <a th:href="'/user/announcement/show/' + ${announcement.id}">
+                <button
+                  type="button"
+                  class="btn btn-outline-main btn-lg"
+                  data-toggle="tooltip"
+                  data-placement="left"
+                  title="Afișează anunțul"
+                >
+                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                    <path fill-rule="evenodd"
+                          d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                  </svg>
+                </button>
+              </a>
+            </div>
           </div>
-          <div th:if="${!announcement.isVisible}" class="mt-3">
-            <a th:href="'/user/announcement/show/' + ${announcement.id}">
-              <button
-                type="button"
-                class="btn btn-outline-main btn-lg"
-                data-toggle="tooltip"
-                data-placement="left"
-                title="Afișează anunțul"
-              >
-                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor"
-                     xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                  <path fill-rule="evenodd"
-                        d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                </svg>
-              </button>
-            </a>
+          <div th:if="${!announcement.isActive}">
+            <button
+              type="button"
+              class="btn btn-outline-danger btn-lg mt-3"
+              id="unbanAnnouncementModalBtn"
+              data-toggle="modal"
+              data-target="#unbanAnnouncementModal"
+              th:attr="data-id=${announcement.id}, data-title=${announcement.title}"
+            >
+              <svg width="1.0625em" height="1em" viewBox="0 0 17 16" class="bi bi-exclamation-triangle-fill"
+                   fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                      d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 5zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+              </svg>
+              Anunțul a fost dezactivat
+            </button>
           </div>
         </div>
       </div>
@@ -229,10 +268,10 @@
     </div>
   </form>
   <div class="row justify-content-end">
-    <div class="col col-md-6">
+    <div class="col col-md-1">
       <button
         type="button"
-        id="deleteAnnouncementModal-btn"
+        id="deleteAnnouncementModalBtn"
         class="btn btn-lg btn-danger btn-block mb-5"
         data-toggle="modal"
         data-target="#deleteAnnouncementModal"
@@ -264,11 +303,47 @@
         </div>
         <div class="modal-footer">
           <form action="/user/announcement/delete" method="post">
-            <input type="hidden" name="announcementId" id="announcementId">
+            <input type="hidden" name="announcementId" class="announcementId">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Anulează</button>
             <button type="submit" class="btn btn-danger">Șterge</button>
           </form>
         </div>
+      </div>
+    </div>
+  </div>
+  <!-- Unban announcement request modal -->
+  <div
+    class="modal fade"
+    id="unbanAnnouncementModal"
+    tabindex="-1"
+    aria-labelledby="unbanAnnouncementModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="unbanAnnouncementModalLabel">Cerere reactivare anunț</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="/user/announcement/unban" method="post">
+          <div class="modal-body">
+              <textarea
+                id="unbanMessage"
+                class="form-control"
+                placeholder="Morivul reactivării anunțului"
+                name="unbanMessage"
+                rows="3"
+                required
+              ></textarea>
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="announcementId" class="announcementId">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Anulează</button>
+            <button type="submit" class="btn btn-danger">Cere reactivare</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -304,16 +379,23 @@
           $('#announcementImageDelete').attr('hidden', true);
       });
 
-      $(document).on('click', '#deleteAnnouncementModal-btn', function () {
+      $(document).on('click', '#deleteAnnouncementModalBtn', function () {
           const announcementId = $(this).data('id');
           const announcementTitle = $(this).data('title');
-          $('#announcementId').val(announcementId);
+          $('.announcementId').val(announcementId);
           $('#deleteAnnouncementModalLabel').text('Șterge anunțul? (' + announcementTitle + ')');
       });
 
       $(function () {
           $('[data-toggle="tooltip"]').tooltip()
       })
+
+      $(document).on('click', '#unbanAnnouncementModalBtn', function () {
+          const announcementId = $(this).data('id');
+          const announcementTitle = $(this).data('title');
+          $('.announcementId').val(announcementId);
+          $('#unbanAnnouncementModalLabel').text('Cerere reactivare anunț (' + announcementTitle + ')');
+      });
   </script>
 </div>
 </html>
