@@ -176,4 +176,34 @@ public class AnnouncementService {
         unbanRequest.setMessage(details.getMessage());
         return announcementUnbanRequestRepository.save(unbanRequest);
     }
+
+    public List<AnnouncementReport> getAnnouncementReports() {
+        return announcementReportRepository.findAllByOrderByReportDateDesc();
+    }
+
+    public List<AnnouncementUnbanRequest> getAnnouncementUnbanRequests() {
+        return announcementUnbanRequestRepository.findAllByOrderByRequestDateDesc();
+    }
+
+    public void activateAnnouncement(int announcementId) {
+        Announcement announcement = getAnnouncementById(announcementId);
+        announcement.setIsActive(true);
+        announcementRepository.save(announcement);
+    }
+
+    public void deactivateAnnouncement(int announcementId) {
+        Announcement announcement = getAnnouncementById(announcementId);
+        announcement.setIsActive(false);
+        announcementRepository.save(announcement);
+    }
+
+    public void deleteAnnouncementReport(int reportId) {
+        Optional<AnnouncementReport> optionalReport = announcementReportRepository.findById(reportId);
+        optionalReport.ifPresent(announcementReport -> announcementReportRepository.delete(announcementReport));
+    }
+
+    public void deleteAnnouncementUnbanRequest(int unbanRequestId) {
+        Optional<AnnouncementUnbanRequest> optionalUnbanRequest = announcementUnbanRequestRepository.findById(unbanRequestId);
+        optionalUnbanRequest.ifPresent(announcementReport -> announcementUnbanRequestRepository.delete(announcementReport));
+    }
 }

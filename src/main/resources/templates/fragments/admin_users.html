@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+>
+<div th:fragment="admin_users">
+  <table id="table-users" class="table table-hover text-center">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th></th>
+      <th scope="col">Nume</th>
+      <th scope="col">Email</th>
+      <th scope="col">Data creărei cont</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user, i : ${users}">
+      <th scope="row"><span th:text="${i.count}"></span></th>
+      <td>
+        <img
+          th:src="${user.image} ? '/user/image/' + ${user.id} : '/img/logo_transparent.png'"
+          width="100px"
+          alt="imagine utilizator"/>
+      </td>
+      <td><span th:text="${user.username}"></span></td>
+      <td><span th:text="${user.email}"></span></td>
+      <td class="text-center">
+        <span th:text="${#dates.format(user.lastLogin, 'dd.MM.yyyy HH:mm')}"></span>
+      </td>
+      <td>
+        <span th:text="user.role.name"></span>
+      </td>
+      <td>
+        <div th:if="${user.isActive}">
+          <form action="/admin/user/ban" method="post">
+            <input type="hidden" name="userId" th:value="${user.id}">
+            <button type="submit" class="btn btn-danger">
+              Dezactivare cont
+            </button>
+          </form>
+        </div>
+        <div th:if="${!user.isActive}">
+          <form action="/admin/user/unban" method="post">
+            <input type="hidden" name="userId" th:value="${user.id}">
+            <button type="submit" class="btn btn-main">
+              Activare cont
+            </button>
+          </form>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</html>

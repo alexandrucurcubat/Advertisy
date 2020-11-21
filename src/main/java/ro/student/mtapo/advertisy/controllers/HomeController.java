@@ -2,6 +2,7 @@ package ro.student.mtapo.advertisy.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,7 +47,8 @@ public class HomeController {
         model.addAttribute("homeFragment", true);
         model.addAttribute("categories", announcementService.getAnnouncementCategories());
         Announcement announcement = announcementService.getAnnouncementById(announcementId);
-        if (announcement.getIsActive() && announcement.getIsVisible()) {
+        if ((announcement.getIsActive() && announcement.getIsVisible())
+                || authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
             announcementService.incrementViewCount(announcementId);
             model.addAttribute("showAnnouncementDetails", true);
             model.addAttribute("announcement", announcement);

@@ -36,6 +36,15 @@
 <main th:if="${userAnnouncementDetails}">
   <div th:replace="~{fragments/user_announcement_details :: user_announcement_details}"></div>
 </main>
+<main th:if="${adminUsers}">
+  <div th:replace="~{fragments/admin_users :: admin_users}"></div>
+</main>
+<main th:if="${adminReports}">
+  <div th:replace="~{fragments/admin_reports :: admin_reports}"></div>
+</main>
+<main th:if="${adminUnbanRequests}">
+  <div th:replace="~{fragments/admin_unban_requests :: admin_unban_requests}"></div>
+</main>
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>

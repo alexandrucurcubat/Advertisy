@@ -73,7 +73,7 @@
     </div>
   </nav>
 
-  <!-- Search form -->
+  <!-- Announcements search form -->
   <nav th:if="${homeFragment}" class="navbar navbar-light bg-dark">
     <form action="/search" method="post" class="form-inline input-group input-group-lg pb-3 px-2">
       <input
@@ -84,7 +84,7 @@
         aria-label="Search"
       >
       <div class="input-group-append">
-        <button class="btn btn-light" type="submit">
+        <button class="btn btn-main" type="submit">
           <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor"
                xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd"
@@ -95,6 +95,60 @@
         </button>
       </div>
     </form>
+  </nav>
+  <!-- Users search form -->
+  <nav th:if="${adminFragment}" class="navbar navbar-light bg-dark">
+    <form
+      th:if="${adminUsers}"
+      action="/admin/users/search"
+      method="post"
+      class="form-inline input-group input-group-lg pb-3 px-2"
+    >
+      <input
+        class="form-control"
+        type="search"
+        name="queryString"
+        placeholder="Caută utilizatori..."
+        aria-label="Search"
+      >
+      <div class="input-group-append">
+        <button class="btn btn-main" type="submit">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor"
+               xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+                  d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+            <path fill-rule="evenodd"
+                  d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+          </svg>
+        </button>
+      </div>
+    </form>
+    <ul class="nav ml-auto">
+      <li class="nav-item">
+        <a
+          th:class="${adminUsers} ? 'nav-link font-weight-bold text-light' : 'nav-link text-light'"
+          href="/admin/users"
+        >
+          Utilizatori
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          th:class="${adminReports} ? 'nav-link font-weight-bold text-light' : 'nav-link text-light'"
+          href="/admin/reports"
+        >
+          Raportări anunțuri
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          th:class="${adminUnbanRequests} ? 'nav-link font-weight-bold text-light' : 'nav-link text-light'"
+          href="/admin/unban_requests"
+        >
+          Cereri reactivare conturi
+        </a>
+      </li>
+    </ul>
   </nav>
 </header>
 </html>

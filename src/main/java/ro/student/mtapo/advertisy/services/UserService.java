@@ -46,7 +46,7 @@ public class UserService {
             return null;
         }
         User newUser = new User();
-        newUser.setActive(true);
+        newUser.setIsActive(true);
         newUser.setRole(roleRepository.getOne(1));
         newUser.setEmail(details.getEmail());
         newUser.setUsername(details.getUsername());
@@ -115,5 +115,25 @@ public class UserService {
             return new ResponseEntity<>(image, headers, HttpStatus.OK);
         }
         return null;
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public void deactivateUser(int userId) {
+        User user = getUserById(userId);
+        user.setIsActive(false);
+        userRepository.save(user);
+    }
+
+    public void activateUser(int userId) {
+        User user = getUserById(userId);
+        user.setIsActive(true);
+        userRepository.save(user);
+    }
+
+    public List<User> searchUsers(String queryString) {
+        return userRepository.findAllByUsernameContaining(queryString);
     }
 }
